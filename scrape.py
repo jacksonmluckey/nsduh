@@ -1,4 +1,4 @@
-import requests
+import requests, zipfile, io
 
 # generate a list of all years that SAMHSA has a NSDUH survey for in SAMHDA
 years = []
@@ -12,4 +12,7 @@ years.append(1979)
 for year in years:
   year = str(year)
   url = "https://www.datafiles.samhsa.gov/sites/default/files/field-uploads-protected/studies/NHSDA-" + year + "/NHSDA-" + year + "-datasets/NHSDA-" + year + "-DS0001/NHSDA-" + year + "-DS0001-bundles-with-study-info/NHSDA-" + year + "-DS0001-bndl-data-tsv.zip"
+  r = requests.get(url)
+  z = zipfile.ZipFile(io.BytesIO(r.content))
+  z.extractall(year)
   print(url)
